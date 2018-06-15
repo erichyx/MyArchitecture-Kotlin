@@ -1,0 +1,58 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+
+    defaultConfig {
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dataBinding {
+        enabled true
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation deps.kotlin.stdlib
+    
+    // Architecture components
+    api deps.lifecycle.extensions
+    kapt deps.lifecycle.compiler
+
+    // Support Library
+    implementation deps.support.app_compat
+    implementation deps.support.recyclerview
+
+    // Retrofit2 & RxKotlin & Gson
+    api deps.retrofit.rxjava2
+    api deps.retrofit.gson
+    api deps.rx_android
+
+    // Glide
+    implementation deps.glide.runtime
+    kapt deps.glide.compiler
+    implementation deps.glide.okhttp3
+
+    // Test Library
+    testImplementation deps.junit
+    androidTestImplementation deps.atsl.runner
+    androidTestImplementation deps.espresso.core
+}

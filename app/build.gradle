@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion build_versions.target_sdk
+    defaultConfig {
+        applicationId "cn.eric.myarchitecture_kotlin"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    dataBinding {
+        enabled = true
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.kotlin.stdlib
+
+    // Architecture components
+    implementation deps.room.runtime
+    kapt deps.room.compiler
+
+    // Support Library
+    implementation deps.support.app_compat
+    implementation deps.support.design
+    implementation deps.support.cardview
+    implementation deps.constraint_layout
+    kapt deps.databing_compier
+
+    // Test Library
+    testImplementation deps.junit
+    androidTestImplementation deps.atsl.runner
+    androidTestImplementation deps.espresso.core
+    implementation project(':basicore')
+}
+
+kapt {
+    generateStubs = true
+}

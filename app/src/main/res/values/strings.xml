@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">MyArchitecture-Kotlin</string>
+    <string name="title_mvvm">MVVM</string>
+    <string name="title_mvp">MVP</string>
+    <string name="title_other">Other</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_test">TestActivity</string>
+
+    <string name="movie_watch_num">%1$.0f人看过</string>
+    <string name="movie_watch_num_over_ten_thousand">%1$.1f万人看过</string>
+    <string name="movie_rating_format">%1$.1f</string>
+    <string name="movie_director">导演：%1$s</string>
+    <string name="movie_actors">主演：%1$s</string>
+    <string name="movie_no_grade">暂无评分</string>
+</resources>
