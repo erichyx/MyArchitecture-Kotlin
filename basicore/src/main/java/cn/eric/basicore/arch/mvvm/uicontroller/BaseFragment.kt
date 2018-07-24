@@ -6,17 +6,16 @@ import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import cn.eric.basicore.arch.mvvm.MvvmControlBehavior
+import me.listenzz.navigation.AwesomeFragment
 
 /**
  * Created by eric on 2018/5/26
  */
-abstract class BaseFragment<B : ViewDataBinding, out VM : ViewModel> : Fragment(), MvvmControlBehavior<B, VM> {
+abstract class BaseFragment<B : ViewDataBinding, out VM : ViewModel> : AwesomeFragment(), MvvmControlBehavior<B, VM> {
 
     protected fun <T : ViewModel> getViewModel(cls: Class<T>): T {
         val t = ViewModelProviders.of(this).get(cls)

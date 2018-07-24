@@ -7,6 +7,8 @@
 
         <import type="android.view.View" />
 
+        <import type="cn.eric.arch.mvvm.bindingadapter.AppBindingAdapterKt" />
+
         <variable
             name="movieInfo"
             type="cn.eric.arch.data.local.MovieInfo" />
@@ -16,9 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
         android:descendantFocusability="blocksDescendants"
-        android:focusable="true"
         android:paddingBottom="15dp"
         android:paddingTop="15dp">
 
@@ -68,7 +68,7 @@
             android:gravity="center"
             android:text="购票"
             android:textColor="@color/movie_pink_text"
-            app:jumpUrl="@{movieInfo.subject.alt}"
+            android:onClick="@{(view)-> AppBindingAdapterKt.jumpUrl(view, movieInfo.subject.alt)}"
             app:layout_constraintEnd_toEndOf="@+id/movie_tv_attendance"
             app:layout_constraintTop_toBottomOf="@+id/movie_tv_attendance" />
 

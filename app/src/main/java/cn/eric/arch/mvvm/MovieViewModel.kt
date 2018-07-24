@@ -2,6 +2,9 @@ package cn.eric.arch.mvvm
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
+import android.content.Intent
+import android.net.Uri
+import android.widget.TextView
 
 import java.util.ArrayList
 

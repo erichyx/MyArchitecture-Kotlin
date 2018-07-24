@@ -1,5 +1,6 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
@@ -39,7 +40,9 @@ dependencies {
 
     // Support Library
     implementation deps.support.app_compat
+    implementation deps.support.design
     implementation deps.support.recyclerview
+    implementation deps.constraint_layout
 
     // Retrofit2 & RxKotlin & Gson
     api deps.retrofit.rxjava2
@@ -50,6 +53,10 @@ dependencies {
     implementation deps.glide.runtime
     kapt deps.glide.compiler
     implementation deps.glide.okhttp3
+
+    // Third party Navigation
+    api deps.other.android_navigation
+
 
     // Test Library
     testImplementation deps.junit

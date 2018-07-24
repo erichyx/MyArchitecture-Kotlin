@@ -9,12 +9,13 @@ import android.view.ViewGroup
 import cn.eric.basicore.arch.mvp.factory.PresenterFactory
 import cn.eric.basicore.arch.mvp.presenter.BaseMvpPresenter
 import cn.eric.basicore.arch.mvp.view.BaseMvpView
+import me.listenzz.navigation.AwesomeFragment
 
 /**
  * Created by eric on 2018/1/6.
  */
 
-abstract class BaseMvpFragment : Fragment(), MvpControlBehavior {
+abstract class BaseMvpFragment : AwesomeFragment(), MvpControlBehavior {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId, container, false)

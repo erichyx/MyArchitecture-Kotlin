@@ -3,7 +3,6 @@ package cn.eric.arch.mvvm
 
 import android.arch.lifecycle.Observer
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.StructuredPostal.CITY
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
@@ -16,6 +15,7 @@ import cn.eric.arch.data.local.MovieInfo
 import cn.eric.arch.databinding.FragmentMvvmBinding
 import cn.eric.basicore.arch.mvvm.fetcher.Resource
 import cn.eric.basicore.arch.mvvm.uicontroller.BaseFragment
+import cn.eric.basicore.arch.mvvm.uicontroller.BottomTabFragment
 
 /**
  * A simple [Fragment] subclass.
@@ -51,13 +51,13 @@ class MovieFragment : BaseFragment<FragmentMvvmBinding, MovieViewModel>(), Swipe
                 Resource.Status.LOADING -> {
                     Log.d(TAG, "数据加载中：${it.data}")
                     viewDataBinding.isRefreshing = true
-                    if (it.data != null) {
-                        movieAdapter?.items = it.data
+                    it.data?.let {
+                        movieAdapter?.items = it
                     }
                 }
-                Resource.Status.SUCCESS -> if (it.data != null) {
-                    Log.d(TAG, "数据完成：${it.data}")
-                    movieAdapter?.items = it.data
+                Resource.Status.SUCCESS -> it.data?.let {
+                    Log.d(TAG, "数据完成：$it")
+                    movieAdapter?.items = it
                 }
                 else -> {
                     Log.d(TAG, "数据加载失败：${it?.message}")
@@ -76,8 +76,9 @@ class MovieFragment : BaseFragment<FragmentMvvmBinding, MovieViewModel>(), Swipe
 
         private const val TAG = "MovieFragment"
 
-        fun newInstance(): MovieFragment {
+        fun newInstance(sceneId: Int): MovieFragment {
             val args = Bundle()
+            args.putString(BottomTabFragment.ARGS_SCENE_ID, sceneId.toString())
             val fragment = MovieFragment()
             fragment.arguments = args
             return fragment

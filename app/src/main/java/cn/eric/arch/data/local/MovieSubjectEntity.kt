@@ -65,16 +65,23 @@ data class SubjectsBean(@Embedded var rating: RatingBean? = null,
  * stars : 40
  * min : 0
  */
-data class RatingBean(var max: Int = 0, var average: Double = 0.0, var min: Int = 0)
+data class RatingBean constructor(var max: Int = 0, var average: Double = 0.0, var min: Int = 0) {
+    @Ignore
+    constructor() : this(0)
+}
 
 /**
  * small : https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2520331478.jpg
  * large : https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2520331478.jpg
  * medium : https://img1.doubanio.com/view/photo/s_ratio_poster/public/p2520331478.jpg
  */
-data class ImagesBean(var small: String? = null,
-                      var large: String? = null,
-                      var medium: String? = null)
+data class ImagesBean constructor(var small: String? = null,
+                                  var large: String? = null,
+                                  var medium: String? = null) {
+    @Ignore
+    constructor() : this("")
+
+}
 
 @Entity(tableName = "tb_movie_genre",
         indices = [(Index(value = ["movieId"]))],
@@ -82,9 +89,11 @@ data class ImagesBean(var small: String? = null,
                 parentColumns = arrayOf("subjectId"),
                 childColumns = arrayOf("movieId"),
                 onDelete = ForeignKey.CASCADE))])
-data class MovieGenre(@PrimaryKey(autoGenerate = true) var autoId: Int = 0,
-                      var movieId: Int = 0,
-                      var genre: String? = null) {
+data class MovieGenre constructor(@PrimaryKey(autoGenerate = true) var autoId: Int = 0,
+                                  var movieId: Int = 0,
+                                  var genre: String? = null) {
+    @Ignore
+    constructor() : this(0)
 
     companion object {
 
@@ -115,22 +124,28 @@ data class MovieGenre(@PrimaryKey(autoGenerate = true) var autoId: Int = 0,
                 parentColumns = arrayOf("subjectId"),
                 childColumns = arrayOf("movieId"),
                 onDelete = ForeignKey.CASCADE))])
-data class CastsBean(var alt: String? = null,
-                     @Embedded var avatars: AvatarsBean? = null,
-                     var name: String? = null,
-                     var id: String? = null,
-                     @PrimaryKey(autoGenerate = true) var autoId: Int = 0,
-                     var movieId: Int = 0
-)
+data class CastsBean constructor(var alt: String? = null,
+                                 @Embedded var avatars: AvatarsBean? = null,
+                                 var name: String? = null,
+                                 var id: String? = null,
+                                 @PrimaryKey(autoGenerate = true) var autoId: Int = 0,
+                                 var movieId: Int = 0
+) {
+    @Ignore
+    constructor() : this("")
+}
 
 /**
  * small : https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1503986232.61.jpg
  * large : https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1503986232.61.jpg
  * medium : https://img3.doubanio.com/view/celebrity/s_ratio_celebrity/public/p1503986232.61.jpg
  */
-data class AvatarsBean(var small: String? = null,
-                       var large: String? = null,
-                       var medium: String? = null)
+data class AvatarsBean constructor(var small: String? = null,
+                                   var large: String? = null,
+                                   var medium: String? = null) {
+    @Ignore
+    constructor() : this("")
+}
 
 /**
  * alt : https://movie.douban.com/celebrity/1331887/
@@ -144,9 +159,12 @@ data class AvatarsBean(var small: String? = null,
                 parentColumns = arrayOf("subjectId"),
                 childColumns = arrayOf("movieId"),
                 onDelete = ForeignKey.CASCADE))])
-data class DirectorsBean(var alt: String? = null,
-                         @Embedded var avatars: AvatarsBean? = null,
-                         var name: String? = null,
-                         var id: Int = 0,
-                         @PrimaryKey(autoGenerate = true) var autoId: Int = 0,
-                         var movieId: Int = 0)
+data class DirectorsBean constructor(var alt: String? = null,
+                                     @Embedded var avatars: AvatarsBean? = null,
+                                     var name: String? = null,
+                                     var id: Int = 0,
+                                     @PrimaryKey(autoGenerate = true) var autoId: Int = 0,
+                                     var movieId: Int = 0) {
+    @Ignore
+    constructor() : this("")
+}
