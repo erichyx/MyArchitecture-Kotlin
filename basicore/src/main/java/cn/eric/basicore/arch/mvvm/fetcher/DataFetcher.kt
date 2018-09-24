@@ -83,11 +83,11 @@ abstract class DataFetcher<ResultType, RequestType> {
             }
 
             val data = transform(response)
-            sExecutor.execute({
+            sExecutor.execute {
                 Log.d(TAG, "保存网络数据$data")
                 saveResult(data)
                 result.postValue(Resource.success(data))
-            })
+            }
         }
     }
 
@@ -102,7 +102,7 @@ abstract class DataFetcher<ResultType, RequestType> {
     abstract fun onFetchFailInfo(): String
 
     companion object {
-        private val TAG = "DataFetcher"
+        private const val TAG = "DataFetcher"
 
         private val sExecutor = AppExecutors.diskIO
     }

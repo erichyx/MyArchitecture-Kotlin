@@ -13,8 +13,5 @@ interface MvpControlBehavior {
     val layoutId: Int
 
     fun initView()
-
     fun onPrepare()
-
-    fun <V : BaseMvpView, P : BaseMvpPresenter<V>> getPresenter(cls: Class<P>, view: V): P
 }

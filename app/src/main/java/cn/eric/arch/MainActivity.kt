@@ -1,21 +1,17 @@
 package cn.eric.arch
 
 import android.os.Bundle
-import cn.eric.arch.mvp.MvpFragment
-import cn.eric.basicore.arch.mvvm.uicontroller.BottomTabFragment
-import cn.eric.arch.mvvm.MovieFragment
-import me.listenzz.navigation.AwesomeActivity
+import android.support.v7.app.AppCompatActivity
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 
-class MainActivity : AwesomeActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val rootFragment = BottomTabFragment.newInstance(R.menu.navigation, R.id.navigation_mvvm)
-        val mvpFragment = MvpFragment.newInstance(R.id.navigation_mvp)
-        val movieFragment = MovieFragment.newInstance(R.id.navigation_mvvm)
-        val otherFragment = OtherFragment.newInstance(R.id.navigation_other)
-        rootFragment.setChildFragments(mvpFragment, movieFragment, otherFragment)
-        setActivityRootFragment(rootFragment)
+        setContentView(R.layout.activity_main)
+        val navController = Navigation.findNavController(this, R.id.nav_fragment)
+        NavigationUI.setupActionBarWithNavController(this, navController)
     }
 }

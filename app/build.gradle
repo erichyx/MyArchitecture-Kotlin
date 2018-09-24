@@ -17,14 +17,46 @@ android {
             }
         }
     }
-    buildTypes {
+
+    signingConfigs {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            // 加载资源
+            Properties properties = new Properties()
+            InputStream inputStream = project.rootProject.file('local.properties').newDataInputStream()
+            properties.load(inputStream)
+
+            // 读取文件
+            def keystoreFilepath = properties.getProperty('keystore.path')
+            def keyFile = file(keystoreFilepath)
+
+            // 读取字段
+            def keystoreAlias = properties.getProperty('keystore.alias')
+            def keystoreAliasPw = properties.getProperty('keystore.alias_password')
+            def keystorePw = properties.getProperty('keystore.password')
+
+            keyAlias keystoreAlias
+            keyPassword keystoreAliasPw
+            storeFile keyFile
+            storePassword keystorePw
         }
     }
+
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+    }
+
     dataBinding {
         enabled = true
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
@@ -35,6 +67,8 @@ dependencies {
     // Architecture components
     implementation deps.room.runtime
     kapt deps.room.compiler
+    implementation deps.navigation.fragment_ktx
+    implementation deps.navigation.ui_ktx
 
     // Support Library
     implementation deps.support.app_compat
@@ -48,8 +82,4 @@ dependencies {
     androidTestImplementation deps.atsl.runner
     androidTestImplementation deps.espresso.core
     implementation project(':basicore')
-}
-
-kapt {
-    generateStubs = true
 }

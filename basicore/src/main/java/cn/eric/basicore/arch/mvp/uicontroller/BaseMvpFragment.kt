@@ -6,16 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-import cn.eric.basicore.arch.mvp.factory.PresenterFactory
-import cn.eric.basicore.arch.mvp.presenter.BaseMvpPresenter
-import cn.eric.basicore.arch.mvp.view.BaseMvpView
-import me.listenzz.navigation.AwesomeFragment
-
 /**
  * Created by eric on 2018/1/6.
  */
 
-abstract class BaseMvpFragment : AwesomeFragment(), MvpControlBehavior {
+abstract class BaseMvpFragment : Fragment(), MvpControlBehavior {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId, container, false)
@@ -25,11 +20,5 @@ abstract class BaseMvpFragment : AwesomeFragment(), MvpControlBehavior {
         super.onViewCreated(view, savedInstanceState)
         initView()
         onPrepare()
-    }
-
-    override fun <V : BaseMvpView, P : BaseMvpPresenter<V>> getPresenter(cls: Class<P>, view: V): P {
-        val presenter = PresenterFactory.create(cls, view)
-        lifecycle.addObserver(presenter)
-        return presenter
     }
 }

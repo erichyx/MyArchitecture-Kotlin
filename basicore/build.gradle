@@ -54,9 +54,6 @@ dependencies {
     kapt deps.glide.compiler
     implementation deps.glide.okhttp3
 
-    // Third party Navigation
-    api deps.other.android_navigation
-
 
     // Test Library
     testImplementation deps.junit

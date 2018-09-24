@@ -1,14 +1,12 @@
-package cn.eric.arch.mvvm
+package cn.eric.arch.mvvm.viewmodels
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import android.content.Intent
-import android.net.Uri
-import android.widget.TextView
 
 import java.util.ArrayList
 
 import cn.eric.arch.app.BasicApp
+import cn.eric.arch.app.BasicApp.Companion.database
 import cn.eric.arch.data.local.MovieGenre
 import cn.eric.arch.data.local.MovieInfo
 import cn.eric.arch.data.local.MovieSubjectEntity
@@ -23,16 +21,14 @@ import io.reactivex.schedulers.Schedulers
  * Created by eric on 2017/11/12.
  */
 
-class MovieViewModel : BaseSimpleViewModel<MovieSubjectEntity>() {
+class MovieViewModel(private val remoteRepo: RemoteRepo) : BaseSimpleViewModel<MovieSubjectEntity>() {
     private lateinit var observableMovies: MutableLiveData<MovieSubjectEntity>
-    private val remoteRepo = RemoteRepo()
-    private val database = BasicApp.database
 
     fun getShowingMovie(city: String, isInit: Boolean): LiveData<Resource<List<MovieInfo>>> {
         return object : DataFetcher<List<MovieInfo>, MovieSubjectEntity>() {
 
             override fun loadCache(): LiveData<List<MovieInfo>>? {
-                return if (isInit) database.movieDao().allMovies else null
+                return if (isInit) remoteRepo.allMovies else null
             }
 
             override fun createCall(): LiveData<MovieSubjectEntity> {
@@ -54,7 +50,7 @@ class MovieViewModel : BaseSimpleViewModel<MovieSubjectEntity>() {
             }
 
             override fun saveResult(item: List<MovieInfo>) {
-                database.movieDao().insetAllMovies(item)
+                remoteRepo.insetAllMovies(item)
             }
 
             override fun onFetchFailInfo(): String {

@@ -1,8 +1,9 @@
-package cn.eric.basicore.arch.mvvm.uicontroller
+package cn.eric.basicore.arch.mvvm.adapter
 
 import android.databinding.DataBindingUtil
 import android.databinding.ViewDataBinding
-import android.support.annotation.LayoutRes
+import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,35 +12,20 @@ import android.view.ViewGroup
 /**
  * Created by eric on 2018/5/31
  */
-abstract class BaseItemBindingAdapter<T, in B : ViewDataBinding> : RecyclerView.Adapter<BaseItemBindingAdapter.BaseBindingViewHolder>() {
-
-    private var _items: MutableList<T> = arrayListOf()
-
-    var items: List<T>?
-        get() = _items
-        set(value) {
-            value?.let {
-                _items.clear()
-                _items.addAll(it)
-                notifyDataSetChanged()
-            }
-        }
+abstract class BaseItemBindingAdapter<T, B : ViewDataBinding>(diffCallback: DiffUtil.ItemCallback<T>) : ListAdapter<T, BaseItemBindingAdapter.BaseBindingViewHolder>(diffCallback) {
 
     protected abstract val variableId: Int
-
-    override fun getItemCount(): Int {
-        return _items.size
-    }
+    protected abstract val layoutId: Int
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseBindingViewHolder {
-        val binding = DataBindingUtil.inflate<B>(LayoutInflater.from(parent.context), getLayoutResId(viewType), parent, false)
+        val binding = DataBindingUtil.inflate<B>(LayoutInflater.from(parent.context), layoutId, parent, false)
         return BaseBindingViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: BaseBindingViewHolder, position: Int) {
         val binding = DataBindingUtil.getBinding<B>(holder.itemView)
         onBeforeBindItem(binding)
-        onBindItem(binding, _items[position])
+        onBindItem(binding, getItem(position))
     }
 
     // 子类根据需要重写该方法
@@ -47,10 +33,7 @@ abstract class BaseItemBindingAdapter<T, in B : ViewDataBinding> : RecyclerView.
 
     }
 
-    @LayoutRes
-    protected abstract fun getLayoutResId(viewType: Int): Int
-
-    protected fun onBindItem(binding: B?, item: T) {
+    private fun onBindItem(binding: B?, item: T) {
         binding?.setVariable(variableId, item)
         binding?.executePendingBindings()
     }

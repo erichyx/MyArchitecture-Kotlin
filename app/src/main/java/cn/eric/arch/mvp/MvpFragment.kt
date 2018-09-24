@@ -6,8 +6,9 @@ import android.support.v7.widget.LinearLayoutManager
 
 
 import cn.eric.arch.R
+import cn.eric.arch.data.local.AppDatabase
+import cn.eric.arch.data.remote.RemoteRepo
 import cn.eric.arch.entity.JokeEntity
-import cn.eric.basicore.arch.mvvm.uicontroller.BottomTabFragment
 import cn.eric.basicore.arch.mvp.uicontroller.BaseMvpFragment
 import kotlinx.android.synthetic.main.fragment_mvp.*
 
@@ -30,7 +31,9 @@ class MvpFragment : BaseMvpFragment(), JokeView, SwipeRefreshLayout.OnRefreshLis
     }
 
     override fun onPrepare() {
-        jokePresenter = getPresenter(JokePresenter::class.java, this)
+        jokePresenter = JokePresenter(RemoteRepo(AppDatabase.instance(requireContext()).movieDao()))
+        jokePresenter.inject(this)
+        lifecycle.addObserver(jokePresenter)
         onRefresh()
     }
 
@@ -47,9 +50,8 @@ class MvpFragment : BaseMvpFragment(), JokeView, SwipeRefreshLayout.OnRefreshLis
     }
 
     companion object {
-        fun newInstance(sceneId: Int): MvpFragment {
+        fun newInstance(): MvpFragment {
             val args = Bundle()
-            args.putString(BottomTabFragment.ARGS_SCENE_ID, sceneId.toString())
             val fragment = MvpFragment()
             fragment.arguments = args
             return fragment

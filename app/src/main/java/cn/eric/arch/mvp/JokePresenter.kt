@@ -10,13 +10,11 @@ import io.reactivex.schedulers.Schedulers
  * Created by eric on 2018/1/7.
  */
 
-class JokePresenter : BaseSimpleMvpPresenter<JokeView, JokeResultEntity>() {
-
-    private val mJokeRepo: RemoteRepo = RemoteRepo()
+class JokePresenter(private val jokeRepo: RemoteRepo) : BaseSimpleMvpPresenter<JokeView, JokeResultEntity>() {
 
     fun fetchJokes(count: Int) {
         mvpView?.setLoadingIndicator(true)
-        mJokeRepo.getJokes(count)
+        jokeRepo.getJokes(count)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this)

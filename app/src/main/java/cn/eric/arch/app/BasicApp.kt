@@ -22,7 +22,7 @@ class BasicApp : Application() {
                 .configure()
 
         // 每次启动的时候先去删数据
-        AppExecutors.diskIO.execute({ database.movieDao().deleteAllMovie() })
+        AppExecutors.diskIO.execute { database.movieDao().deleteAllMovie() }
     }
 
     companion object {
